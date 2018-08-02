@@ -23,16 +23,16 @@ class MySQLConnection(object):
         if sql == '':
             # 预设sql语句：
             sql = """CREATE TABLE IF NOT EXISTS `wallpaper`(
-                    picId INT NOT NULL,
-                    picName VARCHAR(200),
-                    picIntro TEXT,
-                    picSize VARCHAR(40),
-                    picUrl TEXT,
-                    picPreview TEXT,
-                    picColumn TEXT,
-                    picTag TEXT,
-                    picNum INT,
-                    picType TEXT,
+                    picId INT NOT NULL,# 图片id
+                    picName VARCHAR(200),# 图片名称
+                    picIntro TEXT,# 图片简介
+                    picSize VARCHAR(40),# 图片尺寸
+                    picUrl TEXT,# 图片地址，从列表转过来的字符串
+                    picPreview TEXT,# 图片预览地址，从列表转过来的字符串
+                    picColumn TEXT,# 图片栏目，风景呀美女呀动漫呀什么的
+                    picTag TEXT,# 图片便签，一些图片的信息，从列表转过来的字符串
+                    picNum INT,# 图片数量，本集合里有几张图片，也就是列表picUrl的长度
+                    picType TEXT,# 图片分类，分为三个：手机壁纸、电脑壁纸、美女图片
                     PRIMARY KEY (picId))ENGINE=InnoDB DEFAULT CHARSET=utf8;"""
         db = pymysql.connect(host=self.host, port=self.port,
                              user=self.user, passwd=self.passwd, db=self.dbName, use_unicode=True, charset="utf8")
