@@ -12,7 +12,7 @@ import os
 import random
 import re
 import sys
-import threading
+import threading, asyncio
 import time
 import traceback
 
@@ -21,32 +21,31 @@ import requests
 
 from spider import Spider
 # 用于存储照片的
-from PIL import Image
-
 from io import BytesIO
-
+from PIL import Image
 
 
 class Bilibili(Spider):
-    def getTitlePic(self, url):
+    async def getTitlePic(self, url):
         self.url = url
         req = requests.get(self.url, headers=self.headers)
-        PQreq=pyquery.PyQuery(req.text)
+        PQreq = pyquery.PyQuery(req.text)
         for i in PQreq('meta').items():
-            if i.attr.itemprop=='image':
-                print('封面图片地址是：%s'%i.attr.content)
-                self.downLoadPic(i.attr.content,url.split('/')[-1])
+            if i.attr.itemprop == 'image':
+                print('封面图片地址是：%s' % i.attr.content)
+                self.downLoadPic(i.attr.content, url.split('/')[-1])
                 return i.attr.content
-        #<meta content="http://i2.hdslb.com/bfs/archive/8c5e02a3308d1bba0617db1049a530a83ecbe5d9.jpg" itemprop="image" data-vue-meta="true">
-    def downLoadPic(self,url,picName):
-        req = requests.get(url, headers=self.headers)
-        image = Image.open(BytesIO(req.content))
-        image.show()
-        image.save(os.path.join(os.path.dirname(__file__),'img/'+picName+'.'+url.split('.')[-1]))
-        print('图片保存完毕，请前往img目录下查看。')
 
 
 if __name__ == '__main__':
     bilibili = Bilibili()
-    picUrl=bilibili.getTitlePic(
-        'https://www.bilibili.com/video/' + input('请输入要下载封面的视频代号：'), )
+    a = input('请输入要下载封面的视频代号,多个视频号请用,隔开。比如：av28334721,av28354064：')
+    a = a.split(',')
+    loop = asyncio.get_event_loop()
+    tasks = [
+        bilibili.getTitlePic('https://www.bilibili.com/video/' + i) for i in a
+    ]
+    loop.run_until_complete(asyncio.wait(tasks))
+    loop.close()
+    for i in a:
+        bilibili.downLoadHtml('https://www.bilibili.com/video/' + i, i)
