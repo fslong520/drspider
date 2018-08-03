@@ -8,6 +8,7 @@ pyquery = "*"
 requests = "*"
 django = "*"
 pillow = "*"
+pymysql = "*"
 
 [dev-packages]
 

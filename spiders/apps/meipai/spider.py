@@ -44,6 +44,7 @@ class Spider(object):
         }
         self.num = 0
         self.results = []
+        self.params = {}
         self.cookies = {'Cookie': ''}
 
     # 如果相应文件夹不存在就创建：
@@ -61,7 +62,7 @@ class Spider(object):
             picName = hashlib.md5(str(time.time()).encode('utf-8')).hexdigest()
         self.createDir('img')
         try:
-            req = requests.get(url, headers=self.headers)
+            req = requests.get(url, params=self.params, headers=self.headers)
             image = Image.open(BytesIO(req.content))
             image.show()
             # 如果网址中存了照片的文件信息，比如后缀名：
@@ -83,7 +84,8 @@ class Spider(object):
     # 下载保存html文件的方法：
     def downLoadHtml(self, url, htmlName=''):
         if htmlName == '':
-            htmlName = hashlib.md5(str(time.time()).encode('utf-8')).hexdigest()
+            htmlName = hashlib.md5(
+                str(time.time()).encode('utf-8')).hexdigest()
         self.createDir('html')
         try:
             req = requests.get(url, headers=self.headers)
@@ -111,7 +113,8 @@ class Spider(object):
     # 下载指定网址json的方法:
     def downLoadJson(self, url, jsonName=''):
         if jsonName == '':
-            jsonName = hashlib.md5(str(time.time()).encode('utf-8')).hexdigest()
+            jsonName = hashlib.md5(
+                str(time.time()).encode('utf-8')).hexdigest()
         self.createDir('json')
         try:
             req = requests.get(url, headers=self.headers)
@@ -126,7 +129,7 @@ class Spider(object):
                             'json/' + jsonName + '.json'),
                         'w',
                         encoding='utf-8') as f:
-                    json.dump(jsonData, f)
+                    json.dump(jsonData, f, ensure_ascii=False)
                 print('json文件保存完毕，请前往json目录下查看。')
                 return jsonData
         except:
@@ -135,7 +138,8 @@ class Spider(object):
     # 存储dict到json的方法：
     def saveDict2Json(self, dictData, dictName=''):
         if dictName == '':
-            dictName = hashlib.md5(str(time.time()).encode('utf-8')).hexdigest()
+            dictName = hashlib.md5(
+                str(time.time()).encode('utf-8')).hexdigest()
         self.createDir('json')
         try:
             with open(
@@ -144,7 +148,7 @@ class Spider(object):
                         'json/' + dictName + '.json'),
                     'w',
                     encoding='utf-8') as f:
-                json.dump(dictData, f)
+                json.dump(dictData, f, ensure_ascii=False)
             print('json文件保存完毕，请前往json目录下查看。')
         except:
             traceback.print_exc()

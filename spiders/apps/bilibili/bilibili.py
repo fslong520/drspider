@@ -50,4 +50,4 @@ if __name__ == '__main__':
     loop.run_until_complete(asyncio.wait(tasks))
     loop.close()
     for i in a:
-        bilibili.downLoadHtml('https://www.bilibili.com/video/' + i, i)
+        bilibili.downLoadHtml('https://www.bilibili.com/video/' + i)
