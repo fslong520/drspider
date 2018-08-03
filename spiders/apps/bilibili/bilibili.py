@@ -26,8 +26,6 @@ from PIL import Image
 
 
 class Bilibili(Spider):
-    
-
 
     # 下载哔哩哔哩视频封面的函数:
     async def getTitlePic(self, url):
