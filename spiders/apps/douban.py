@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
@@ -11,6 +10,7 @@ import ast  # 用于将字符串转为字典
 import json
 import multiprocessing
 import os
+import random
 import re
 import threading
 import time
@@ -18,7 +18,7 @@ import traceback
 
 import pyquery
 import requests
-import random
+
 from spiders.apps.spider import Spider
 
 
