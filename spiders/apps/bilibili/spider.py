@@ -24,7 +24,6 @@ import pyquery
 import requests
 
 
-
 class Spider(object):
     def __init__(self):
         self.path = os.path.dirname(__file__)
@@ -49,9 +48,10 @@ class Spider(object):
 
     # 如果相应文件夹不存在就创建：
     def createDir(self, dirName):
-        if os.path.exists(os.path.join(os.path.dirname(__file__), dirName)):
-            pass
-        else:
+
+        # 如果指定目录不存在就创建：
+        if not os.path.exists(
+                os.path.join(os.path.dirname(__file__), dirName)):
             os.mkdir(os.path.join(os.path.dirname(__file__), dirName))
 
     # 下载指定网址图片的方法：
@@ -139,9 +139,6 @@ class Spider(object):
             print('json文件保存完毕，请前往json目录下查看。')
         except:
             traceback.print_exc()
-
-
-
 
 
 if __name__ == "__main__":
